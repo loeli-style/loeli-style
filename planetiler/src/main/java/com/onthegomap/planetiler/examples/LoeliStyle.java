@@ -15,6 +15,10 @@ import java.util.List;
 public class LoeliStyle implements Profile {
 
   public static final String OCEAN_SOURCE = "ocean";
+  public static final double MERGE_LINE_STRINGS_MIN_LENGTH = 0.5;
+  public static final double MERGE_LINE_STRINGS_TOLERANCE = 0.5;
+  public static final double MERGE_LINE_STRINGS_BUFFER = 4.0;
+  public static final double MERGE_OVERLAPPING_POLYGONS_MIN_AREA = 4.0;
 
   @Override
   public void processFeature(SourceFeature sourceFeature, FeatureCollector features) {
@@ -73,15 +77,15 @@ public class LoeliStyle implements Profile {
 
     if ("boundary".equals(layer)) {
       return FeatureMerge.mergeLineStrings(items,
-        0.5,
-        0.5,
-        4
+        MERGE_LINE_STRINGS_MIN_LENGTH,
+        MERGE_LINE_STRINGS_TOLERANCE,
+        MERGE_LINE_STRINGS_BUFFER
       );
     }
 
     if ("water".equals(layer)) {
       try {
-        return FeatureMerge.mergeOverlappingPolygons(items, 4);
+        return FeatureMerge.mergeOverlappingPolygons(items, MERGE_OVERLAPPING_POLYGONS_MIN_AREA);
       }
       catch (GeometryException e) {
         return null;
@@ -93,7 +97,7 @@ public class LoeliStyle implements Profile {
 
   @Override
   public String name() {
-    return "loli-style";
+    return "loeli-style";
   }
 
   @Override
@@ -117,7 +121,7 @@ public class LoeliStyle implements Profile {
       .addOsmSource("osm", Path.of("data", "sources", area + ".osm.pbf"), "planet".equals(area) ? "aws:latest" : ("geofabrik:" + area))
       .addShapefileSource(OCEAN_SOURCE, Path.of("data", "sources", "water-polygons-split-3857.zip"),
         "https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip")
-      .overwriteOutput("mbtiles", Path.of("data", "loli-style.mbtiles"))
+      .overwriteOutput("mbtiles", Path.of("data", "loeli-style.mbtiles"))
       .run();
   }
 }
