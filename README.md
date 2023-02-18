@@ -1,2 +1,2 @@
-# loli-style
+# loeli-style
 No map is perfect
