@@ -14,7 +14,7 @@ import com.onthegomap.planetiler.reader.osm.OsmRelationInfo;
 import java.nio.file.Path;
 import java.util.List;
 
-public class LoliStyle implements Profile {
+public class LoeliStyle implements Profile {
 
   @Override
   public List<OsmRelationInfo> preprocessOsmRelation(OsmElement.Relation relation) {
@@ -118,7 +118,7 @@ public class LoliStyle implements Profile {
   static void run(Arguments args) throws Exception {
     String area = args.getString("area", "geofabrik area to download", "monaco");
     Planetiler.create(args) 
-      .setProfile(new LoliStyle())
+      .setProfile(new LoeliStyle())
       .addOsmSource("osm", Path.of("data", "sources", area + ".osm.pbf"), "planet".equals(area) ? "aws:latest" : ("geofabrik:" + area))
       .addShapefileSource("ocean", Path.of("data", "sources", "water-polygons-split-3857.zip"),
         "https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip")
