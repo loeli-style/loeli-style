@@ -17,11 +17,6 @@ import java.util.List;
 public class LoeliStyle implements Profile {
 
   @Override
-  public List<OsmRelationInfo> preprocessOsmRelation(OsmElement.Relation relation) {
-    return null;
-  }
-
-  @Override
   public void processFeature(SourceFeature sourceFeature, FeatureCollector features) {
 
     // building layer
