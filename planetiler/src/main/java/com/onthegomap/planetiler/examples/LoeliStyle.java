@@ -107,7 +107,7 @@ public class LoeliStyle implements Profile {
   }
 
   public static void main(String[] args) throws Exception {
-    run(Arguments.fromArgsOrConfigFile(args));
+    run(Arguments.fromArgsOrConfigFile(args).orElse(Arguments.of("maxzoom", 15)));
   }
 
   static void run(Arguments args) throws Exception {
