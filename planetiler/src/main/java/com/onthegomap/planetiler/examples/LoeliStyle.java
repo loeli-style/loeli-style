@@ -8,13 +8,13 @@ import com.onthegomap.planetiler.VectorTile;
 import com.onthegomap.planetiler.geo.GeometryException;
 import com.onthegomap.planetiler.config.Arguments;
 import com.onthegomap.planetiler.reader.SourceFeature;
-import com.onthegomap.planetiler.reader.osm.OsmElement;
-import com.onthegomap.planetiler.reader.osm.OsmRelationInfo;
 
 import java.nio.file.Path;
 import java.util.List;
 
 public class LoeliStyle implements Profile {
+
+  public static final String OCEAN_SOURCE = "ocean";
 
   @Override
   public void processFeature(SourceFeature sourceFeature, FeatureCollector features) {
@@ -48,10 +48,10 @@ public class LoeliStyle implements Profile {
         "reservoir",
         "basin"
       ) ||
-      "ocean".equals(sourceFeature.getSource())
+      OCEAN_SOURCE.equals(sourceFeature.getSource())
     )) {
       int minZoom = 0;
-      if ("ocean".equals(sourceFeature.getSource())) {
+      if (OCEAN_SOURCE.equals(sourceFeature.getSource())) {
         minZoom = 0;
       }
       else {
@@ -115,7 +115,7 @@ public class LoeliStyle implements Profile {
     Planetiler.create(args) 
       .setProfile(new LoeliStyle())
       .addOsmSource("osm", Path.of("data", "sources", area + ".osm.pbf"), "planet".equals(area) ? "aws:latest" : ("geofabrik:" + area))
-      .addShapefileSource("ocean", Path.of("data", "sources", "water-polygons-split-3857.zip"),
+      .addShapefileSource(OCEAN_SOURCE, Path.of("data", "sources", "water-polygons-split-3857.zip"),
         "https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip")
       .overwriteOutput("mbtiles", Path.of("data", "loli-style.mbtiles"))
       .run();
